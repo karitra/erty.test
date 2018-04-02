@@ -1,0 +1,12 @@
+CXX = g++
+CXXFLAGS = -std=c++11 -O3 -Wall -s
+
+ERTY_INC = /home/karapuz/prj/ya/cocaine/liberty/include
+ERTY_LIB = /home/karapuz/prj/ya/cocaine/liberty/target/release
+ERTY = -lerty
+
+CASABLANCA = -lcpprest
+
+LIBS = $(ERTY) $(CASABLANCA)
+
+: src/test1.cc |> $(CXX) $(CXXFLAGS) -I$(ERTY_INC) %f -L$(ERTY_LIB) $(LIBS) -o %o |> build/cli.test1
