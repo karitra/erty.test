@@ -33,7 +33,7 @@ struct self_ref_t {
 };
 
 template<class Client>
-auto run_iters(Client&& client, const int iters) -> std::vector<pplx::task<std::string>> {
+auto run_iters(Client&& client, const std::string& uri, const int iters) -> std::vector<pplx::task<std::string>> {
     std::vector<pplx::task<std::string>> tasks;
 
     for (int i = 0; i < iters; ++i) {
@@ -42,7 +42,7 @@ auto run_iters(Client&& client, const int iters) -> std::vector<pplx::task<std::
 
         auto self = std::make_shared<self_ref_t>(i);
 
-        request.set_request_uri(conf::TEST_URI);
+        request.set_request_uri(uri);
         request.set_complete_callback([=] (const liberty_http_error* error, const liberty_http_response* response) {
             if (error) {
                 std::cerr << "Or, noh! Error!\n";
@@ -78,10 +78,9 @@ auto run_iters(Client&& client, const int iters) -> std::vector<pplx::task<std::
 auto main(int argc, const char *argv[]) -> int {
     std::cerr << "Starting tests...\n";
 
-
     auto client = std::make_shared<liberty::http_client>();
 
-    for(auto&& task: run_iters(*client, 1000)) {
+    for(auto&& task: run_iters(*client, conf::TEST_URI, 1000)) {
         task.then([=] (pplx::task<std::string> task) {
             try {
                 task.get();
@@ -92,8 +91,9 @@ auto main(int argc, const char *argv[]) -> int {
         });
     }
 
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     client.reset();
-    // std::this_thread::sleep_for(std::chrono::seconds(3));
+
     std::cerr << "deleted successfully " << deleted << '\n';
     return EXIT_SUCCESS;
 }
