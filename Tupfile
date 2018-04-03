@@ -1,8 +1,9 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -O3 -Wall -s
 
-ERTY_INC = /home/karapuz/prj/ya/cocaine/liberty/include
-ERTY_LIB = /home/karapuz/prj/ya/cocaine/liberty/target/release
+ERTY_INC = ../cocaine/liberty/include
+ERTY_LIB = ../cocaine/liberty/target/release
+
 ERTY = -lerty
 
 CASABLANCA = -lcpprest

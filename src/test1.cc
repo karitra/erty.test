@@ -45,7 +45,7 @@ auto run_iters(Client&& client, const std::string& uri, const int iters) -> std:
         request.set_request_uri(uri);
         request.set_complete_callback([=] (const liberty_http_error* error, const liberty_http_response* response) {
             if (error) {
-                std::cerr << "Or, noh! Error!\n";
+                std::cerr << "Oh, noh! Error!\n";
                 event.set_exception(std::runtime_error(std::string(liberty_error_extra(error), liberty_error_extra_size(error))));
                 return;
             }
@@ -88,7 +88,7 @@ auto main(int argc, const char *argv[]) -> int {
             } catch (const std::exception& e) {
                 std::cerr << "Exception: " << e.what() << '\n';
             }
-        });
+        }).wait();
     }
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
